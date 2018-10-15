@@ -93,17 +93,18 @@ client.on('message', function(msg){
 			var dateY=date.slice(0,4);
 			var dateM=date.slice(4,6);
 			var dateD=date.slice(6);
+			var TP = "TP2";
 			if (msg.member.roles.has(msg.guild.roles.find("name", "TP1").id)) {//Définit la variable TP en fonction du role trouvé
-				var TP = "TP1";
+				TP = "TP1";
 			}
 			else if (msg.member.roles.has(msg.guild.roles.find("name", "TP2").id)) {
-				var TP = "TP2";
+				TP = "TP2";
 			}
 			else if (msg.member.roles.has(msg.guild.roles.find("name", "TP4").id)) {
-				var TP = "TP3";
+				TP = "TP3";
 			}
 			else if (msg.member.roles.has(msg.guild.roles.find("name", "TP4").id)) {
-				var TP = "TP4";
+				TP = "TP4";
 			}
 			if (args.length>0) { //Si des arguments ont été donnés à la variable
 				for (i in args) { //Trouve un potentiel argument "tp." avec . le n° du TP
