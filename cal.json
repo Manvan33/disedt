@@ -1,0 +1,28 @@
+{
+  "cal": {
+    "METHOD": "REQUEST",
+    "PRODID": "-//ADE/version 6.0",
+    "VERSION": "2.0",
+    "CALSCALE": "GREGORIAN",
+    "VEVENT": [
+      {
+        "DTSTART": "20181120T123000Z",
+        "DTEND": "20181120T143000Z",
+        "SUMMARY": "Outils pour le signal - Cours",
+        "LOCATION": "Cayenne MD",
+        "DESCRIPTION": "\\n\\n1A\\nHOVSEPIAN Anouch\\n(Exported :10/10/2018 15:44)\\n",
+        "UID": "ADE60323031382d32303139506c616e6e696e67556e69766572736974e92d31333339332d302d31",
+        "CREATED": "19700101T000000Z"
+      },
+      {
+        "DTSTART": "20190308T123000Z",
+        "DTEND": "20190308T143000Z",
+        "SUMMARY": "Technologies internet - TP1",
+        "LOCATION": "Bombay P",
+        "DESCRIPTION": "\\n\\nTP1\\nDAMOISEAUX Jean-Luc\\n(Exported :10/10/2018 15:44)\\n",
+        "UID": "ADE60323031382d32303139506c616e6e696e67556e69766572736974e92d32323334312d302d34",
+        "CREATED": "19700101T000000Z"
+      }
+    ]
+  }
+}

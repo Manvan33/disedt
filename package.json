@@ -1,0 +1,13 @@
+{
+  "name": "BotDevoirs",
+  "version": "1.0.0",
+  "description": "My First Discord Bot",
+  "main": "bot.js",
+  "author": "Manvan",
+  "scripts": { "start": "node test.js"},
+  "dependencies": {
+    "discord.io": "^2.5.3",
+    "discord.js": "^11.2.1",
+    "winston": "^3.1.0"
+  }
+}
