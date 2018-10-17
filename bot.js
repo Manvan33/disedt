@@ -29,7 +29,7 @@ function datify(entry) {
 //-----------------------------//
 function totime() {
 	var time = new Date();
-	var sortie = ""+datify(time.getHours())+datify(time.getMinutes());
+	var sortie = ""+datify(String(time.getHours()+2))+datify(String(time.getMinutes()));
 	return sortie;
 };
 //-----------------------------//
