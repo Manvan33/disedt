@@ -35,7 +35,7 @@ function datify(entry) {
 //-----------------------------//
 
 function getEvents(date,TP) { //Renvoie une liste des évenements
-	var data=cal.cal; //charge le calendrier
+	var data=cal.VCALENDAR.VEVENT; //charge le calendrier
 	var time=[];
 	var sortie=[];
 	var liste=[];
