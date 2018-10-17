@@ -173,5 +173,4 @@ client.on('message', function(msg){
 	}
 });
 
-
-client.login('NDk5MjU0MzAyNzI5MzA2MTE0.Dp5oPg.xH8B72C5KTXwxwuul9czRTRaevg');
+client.login(HTKEN);
