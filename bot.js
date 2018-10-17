@@ -35,7 +35,7 @@ function datify(entry) {
 //-----------------------------//
 
 function getEvents(date,TP) { //Renvoie une liste des évenements
-	var data=cal.VCALENDAR; //charge le calendrier
+	var data=cal.VCALENDAR	; //charge le calendrier
 	var time=[];
 	var sortie=[];
 	var liste=[];
@@ -129,7 +129,6 @@ client.on('message', function(msg){
 			var events = getEvents(date,TP);
 			console.log(events.length,"evenements trouvés");
 			console.log("lastEvent:",events.slice(-1));
-			console.log("Heure du dernier cours :",events[events.length-1].DTEND.slice(9,13),"; il est",actual,"heure actuellement.");
 			if ((events.length<1)||(parseInt(events[events.length-1].DTEND.slice(9,13)) < (parseInt(actual)-2)&&date==today())) {
 				if (events.length>0) {
 					console.log("journée terminée");
