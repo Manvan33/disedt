@@ -1,11 +1,5 @@
 {
   "VCALENDAR": [
-    {
-      "METHOD": "REQUEST",
-      "PRODID": "-//ADE/version 6.0",
-      "VERSION": "2.0",
-      "CALSCALE": "GREGORIAN",
-      "VEVENT": [
         {
           "DTSTAMP": "20181017T134005Z",
           "DTSTART": "20190215T073000Z",
@@ -5731,6 +5725,4 @@
           "SEQUENCE": "1829056405"
         }
       ]
-    }
-  ]
 }
