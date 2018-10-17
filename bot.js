@@ -20,18 +20,18 @@ function today() {
 	return sortie;
 };
 //-----------------------------//
-function totime() {
-	var time = new Date();
-	var sortie = ""+time.getHours()+time.getMinutes();
-	return sortie;
-};
-//-----------------------------//
 function datify(entry) {
 	if (entry.length < 2) {
 		entry='0'+entry;
 	} 
 	return entry;
 }
+//-----------------------------//
+function totime() {
+	var time = new Date();
+	var sortie = ""+datify(time.getHours())+datify(time.getMinutes());
+	return sortie;
+};
 //-----------------------------//
 
 function getEvents(date,TP) { //Renvoie une liste des évenements
