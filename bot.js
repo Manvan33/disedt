@@ -173,4 +173,4 @@ client.on('message', function(msg){
 	}
 });
 
-client.login(HTKEN);
+client.login(process.env.HTKEN);
