@@ -131,13 +131,13 @@ client.on('message', function(msg){
 			}
 			dateM=datify(dateM);
 			dateD = datify(dateD);
+			date=dateY+dateM+dateD;
 			if (parseInt(date)>20181027) {
 				decalage=1;
 			}
 			if (parseInt(date)>20190330) {
 				decalage=2;
 			}
-			date=dateY+dateM+dateD;
 			console.log("year:",dateY," month:",dateM,"day:",dateD);
 			console.log("complete :",date);
 			var events = getEvents(date,TP);
