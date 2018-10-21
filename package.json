@@ -6,6 +6,7 @@
   "author": "Manvan",
   "scripts": { "start": "node test.js"},
   "dependencies": {
+    "commander":"^2.19.0",
     "node-wget":"^0.4.3",
     "ical2json":"^1.2.0",
     "discord.io": "^2.5.3",
