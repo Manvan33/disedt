@@ -167,6 +167,12 @@ client.on('message', function(msg){
 					dateM=datify(dateM);
 					dateD=datify(dateD);
 					date=dateY+dateM+dateD;
+					if (parseInt(date)>20181027) {
+						decalage=1;
+					}
+					if (parseInt(date)>20190330) {
+						decalage=2;
+					}
 					events=getEvents(date,TP);
 					console.log("toujours rien");
 				}
