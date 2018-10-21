@@ -11,8 +11,13 @@ L'emploi du temps affiche les cours de la journée actuelle,
   ou ceux du prochain jour de cours si le dernier cours de la journée est passé.
   Si la date invoquée est vide de cours, affiche la prochaine journée de cours.
 Ou la date donnée en argument : accepte les formats jj/mm et j/m (convertis en jj/mm par le script)
-  
+(Une date avec un mois inférieur à 8 est passé à 2019, les autres sont en 2018).
+
 L'ordre des arguments n'importe pas, un argument faux est ignoré.
+
+Adapte les horaires en fonction des changements d'heure (hiver/été).
+
+
 
 __Fonctionnalités secondaires :__
 *tout message commençant par un ! est considéré comme une commande,
@@ -23,3 +28,5 @@ le bot répond `pong`
 
 __Fonctionnalités prévues :__
 !LMGTFY créant un lien http://lmgtfy.com/ avec le message précédant.
+
+!update actualise l'emploi du temps en téléchargeant le fichier ical sur l'ENT.

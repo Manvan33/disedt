@@ -1,6 +1,11 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-const cal = require('./ADECal.json');
+const ical2json = require("ical2json");
+const wget = require('node-wget');
+const urlFile = require('./url.json')
+
+var file = require('./ADECal.json');
+var cal = ical2json.convert(file);
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
@@ -87,8 +92,14 @@ client.on('message', function(msg){
 			console.log(today());
 		}
 		//-----------------------------//
-		if (command=='cal') {
-			reponse.push("Cette commande n'existe plus");
+		if (command=='update') {
+			wget({
+		        url:  urlFile,
+		        dest: './ADECal.ics',      // destination path or path with filenname, default is ./
+		        timeout: 2000       // duration to wait for request fulfillment in milliseconds, default is 2 seconds
+		    });
+		    file=require('./ADECal.ics');
+		    cal=ical2json.convert(file);
 		}
 		//-----------------------------//
 		if (command=='edt') {// Assigne initialement la variable TP en fction du role
