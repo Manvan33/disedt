@@ -29,7 +29,11 @@ function datify(entry) {
 //-----------------------------//
 function totime() {
 	var time = new Date();
-	var sortie = ""+datify(String(time.getHours()+2))+datify(String(time.getMinutes()));
+	var decalage=1;
+	if (parseInt(String(time.getMonth()+1)+String(time.getDate())) < 1031 && parseInt(String(time.getMonth()+1)+String(time.getDate())) > 330) {
+		decalage=2;
+	}
+	var sortie = ""+datify(String(time.getHours()+decalage))+datify(String(time.getMinutes()));
 	return sortie;
 };
 //-----------------------------//
@@ -121,15 +125,24 @@ client.on('message', function(msg){
 					}
 				}
 			}
+			if (dateM<9) {
+				dateY="2019";
+			}
 			dateM=datify(dateM);
 			dateD = datify(dateD);
+			if (parseInt(date)>20181027) {
+				decalage=1;
+			}
+			if (parseInt(date)>20190330) {
+				decalage=2;
+			}
 			date=dateY+dateM+dateD;
 			console.log("year:",dateY," month:",dateM,"day:",dateD);
 			console.log("complete :",date);
 			var events = getEvents(date,TP);
 			console.log(events.length,"evenements trouvés");
 			console.log("lastEvent:",events.slice(-1));
-			if ((events.length<1)||(parseInt(events[events.length-1].DTEND.slice(9,13)) < (parseInt(actual)-2)&&date==today())) {
+			if ((events.length<1)||(parseInt(events[events.length-1].DTEND.slice(9,13)) < (parseInt(actual)-decalage)&&date==today())) {
 				if (events.length>0) {
 					console.log("journée terminée");
 					events=[];
@@ -162,7 +175,7 @@ client.on('message', function(msg){
 			var eDesc;
 			for (var i in events) { // Liste les cours dans la variable reponse
 				eDesc=events[i].DESCRIPTION;
-				reponse.push(events[i].SUMMARY+" à __"+String(parseInt(events[i].DTSTART.slice(9,11))+2)+"h"+events[i].DTSTART.slice(11,13)+"__ à *"+events[i].LOCATION+"* avec "+eDesc.slice(eDesc.slice(0,eDesc.indexOf('(')-5).lastIndexOf('\\')+2,events[i].DESCRIPTION.indexOf("(")-2));
+				reponse.push(events[i].SUMMARY+" à __"+String(parseInt(events[i].DTSTART.slice(9,11))+decalage)+"h"+events[i].DTSTART.slice(11,13)+"__ à *"+events[i].LOCATION+"* avec "+eDesc.slice(eDesc.slice(0,eDesc.indexOf('(')-5).lastIndexOf('\\')+2,events[i].DESCRIPTION.indexOf("(")-2));
 			}
 		}
 		if (reponse.length>1) {
