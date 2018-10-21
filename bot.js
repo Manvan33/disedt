@@ -93,6 +93,7 @@ client.on('message', function(msg){
 		//-----------------------------//
 		if (command=='edt') {// Assigne initialement la variable TP en fction du role
 			var actual = totime();
+			var decalage=2;
 			var date=today();
 			var dateY=date.slice(0,4);
 			var dateM=date.slice(4,6);
