@@ -39,7 +39,7 @@ function totime() {
 //-----------------------------//
 
 function getEvents(date,TP) { //Renvoie une liste des évenements
-	var data=cal.VCALENDAR	; //charge le calendrier
+	var data=cal.VCALENDAR[0].VEVENT; //charge le calendrier
 	var time=[];
 	var sortie=[];
 	var liste=[];
