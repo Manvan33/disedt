@@ -2,7 +2,7 @@
 Bot Discord affichant l'emploi du temps en R&amp;T
 
 __Fonctionnalité principale :__
-!edt <date> <TP>
+∙ !edt <date> <TP>
 Affiche l'emploi du temps d'une journée. 
 L'emploi du temps est importé depuis dans un fichier ICAL, convertit en fichier JSON.
 L'emploi du temps est personnalisé en fonction du rôle de la personne invoquant la commande,
@@ -13,20 +13,24 @@ L'emploi du temps affiche les cours de la journée actuelle,
 Ou la date donnée en argument : accepte les formats jj/mm et j/m (convertis en jj/mm par le script)
 (Une date avec un mois inférieur à 8 est passé à 2019, les autres sont en 2018).
 
-L'ordre des arguments n'importe pas, un argument faux est ignoré.
-
 Adapte les horaires en fonction des changements d'heure (hiver/été).
 
+∙ !update actualise l'emploi du temps en téléchargeant le fichier ical sur l'ENT.
 
+*L'ordre des arguments n'importe pas, un argument faux est ignoré.*
 
 __Fonctionnalités secondaires :__
 *tout message commençant par un ! est considéré comme une commande,
 le message est donc automatiquement supprimé à la fin de son traitement par le bot*
 
-!ping
+∙ !ping
 le bot répond `pong` 
+
+∙ !fb ou !facebook
+Envoie le lien du groupe facebook.
+
+∙ !pulls
+Envoie le lien du sondage pour la couleur des pulls de la promo.
 
 __Fonctionnalités prévues :__
 !LMGTFY créant un lien http://lmgtfy.com/ avec le message précédant.
-
-!update actualise l'emploi du temps en téléchargeant le fichier ical sur l'ENT.

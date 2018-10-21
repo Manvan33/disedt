@@ -1,10 +1,12 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const ical2json = require("ical2json");
+const fs = require('fs');
 const wget = require('node-wget');
-const urlFile = require('./url.json')
+const urlFile = require('./url.json');
+const sleep = require('sleep');
 
-var file = require('./ADECal.json');
+var file = fs.readFileSync('./ADECal.ics');
 var cal = ical2json.convert(file);
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -44,6 +46,8 @@ function totime() {
 //-----------------------------//
 
 function getEvents(date,TP) { //Renvoie une liste des évenements
+	file = fs.readFileSync('./ADECal.ics');
+	cal = ical2json.convert(file);
 	var data=cal.VCALENDAR[0].VEVENT; //charge le calendrier
 	var time=[];
 	var sortie=[];
@@ -93,13 +97,25 @@ client.on('message', function(msg){
 		}
 		//-----------------------------//
 		if (command=='update') {
+			fs.unlinkSync('./ADECal.ics');
+			sleep.sleep(1);
 			wget({
 		        url:  urlFile,
 		        dest: './ADECal.ics',      // destination path or path with filenname, default is ./
 		        timeout: 2000       // duration to wait for request fulfillment in milliseconds, default is 2 seconds
 		    });
-		    file=require('./ADECal.ics');
-		    cal=ical2json.convert(file);
+		    sleep.sleep(2);
+			file = fs.readFileSync('./ADECal.ics');
+			cal = ical2json.convert(file);
+		    console.log(cal);
+		    console.log('\n ======= MAJ EDT =======\n');
+		    reponse.push("**EDT mis à jour !**");
+		}
+		if (command=='facebook'||command=='fb') {
+			reponse.push("process.env.FBLINK");
+		}
+		if (command=='pulls'||command=='pull'||command=='sweats') {
+			reponse.push("process.env.PULLFORM");
 		}
 		//-----------------------------//
 		if (command=='edt') {// Assigne initialement la variable TP en fction du role
@@ -196,11 +212,11 @@ client.on('message', function(msg){
 				reponse.push(events[i].SUMMARY+" à __"+String(parseInt(events[i].DTSTART.slice(9,11))+decalage)+"h"+events[i].DTSTART.slice(11,13)+"__ à *"+events[i].LOCATION+"* avec "+eDesc.slice(eDesc.slice(0,eDesc.indexOf('(')-5).lastIndexOf('\\')+2,events[i].DESCRIPTION.indexOf("(")-2));
 			}
 		}
-		if (reponse.length>1) {
+		if (reponse.length>0) {
 			msg.reply(reponse);
 		}
 		msg.delete();
 	}
 });
 
-client.login(process.env.HTKEN);
+client.login('process.env.HTKEN');
