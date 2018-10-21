@@ -112,10 +112,10 @@ client.on('message', function(msg){
 		    reponse.push("**EDT mis à jour !**");
 		}
 		if (command=='facebook'||command=='fb') {
-			reponse.push("process.env.FBLINK");
+			reponse.push(process.env.FBLINK);
 		}
 		if (command=='pulls'||command=='pull'||command=='sweats') {
-			reponse.push("process.env.PULLFORM");
+			reponse.push(process.env.PULLFORM);
 		}
 		//-----------------------------//
 		if (command=='edt') {// Assigne initialement la variable TP en fction du role
@@ -218,5 +218,4 @@ client.on('message', function(msg){
 		msg.delete();
 	}
 });
-
-client.login('process.env.HTKEN');
+client.login(process.env.HTKEN);
