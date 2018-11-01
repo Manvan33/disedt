@@ -3,9 +3,13 @@ const client = new Discord.Client();
 const ical2json = require("ical2json");
 const fs = require('fs');
 const wget = require('node-wget');
-const urlFile = require('./url.json');
 const sleep = require('sleep');
-
+wget({
+		        url:  process.env.URL,
+		        dest: './ADECal.ics',      // destination path or path with filenname, default is ./
+		        timeout: 2000       // duration to wait for request fulfillment in milliseconds, default is 2 seconds
+		    });
+sleep(2);
 var file = fs.readFileSync('./ADECal.ics');
 var cal = ical2json.convert(file);
 client.on('ready', () => {
@@ -100,7 +104,7 @@ client.on('message', function(msg){
 			fs.unlinkSync('./ADECal.ics');
 			sleep.sleep(1);
 			wget({
-		        url:  urlFile,
+		        url:  process.env.URL,
 		        dest: './ADECal.ics',      // destination path or path with filenname, default is ./
 		        timeout: 2000       // duration to wait for request fulfillment in milliseconds, default is 2 seconds
 		    });
@@ -184,10 +188,15 @@ client.on('message', function(msg){
 						dateD = 1;
 						if (dateM>11) {// Que 12 mois dans l'année
 							dateM=1;
+							dateY++;
 						}
-						dateY++;
+						else {
+							dateM++;
+						}
 					}
-					dateD++;
+					else {
+						dateD++;
+					}
 					dateD = String(dateD);
 					dateM = String(dateM);
 					dateY = String(dateY);
@@ -201,6 +210,7 @@ client.on('message', function(msg){
 						decalage=2;
 					}
 					events=getEvents(date,TP);
+					console.log("");
 					console.log("toujours rien");
 				}
 			}
@@ -209,7 +219,7 @@ client.on('message', function(msg){
 			var eDesc;
 			for (var i in events) { // Liste les cours dans la variable reponse
 				eDesc=events[i].DESCRIPTION;
-				reponse.push(events[i].SUMMARY+" à __"+String(parseInt(events[i].DTSTART.slice(9,11))+decalage)+"h"+events[i].DTSTART.slice(11,13)+"__ à *"+events[i].LOCATION+"* avec "+eDesc.slice(eDesc.slice(0,eDesc.indexOf('(')-5).lastIndexOf('\\')+2,events[i].DESCRIPTION.indexOf("(")-2));
+				reponse.push(events[i].SUMMARY+" à __"+String(parseInt(events[i].DTSTART.slice(9,11))+decalage)+"h"+events[i].DTSTART.slice(11,13)+"__ à *"+events[i].LOCATION+"* avec "+eDesc.slice(eDesc.slice(0,eDesc.indexOf('(')-5).lastIndexOf('\\')+2,events[i].DESCRIPTION.indexOf("(")-2));		
 			}
 		}
 		if (reponse.length>0) {
