@@ -9,7 +9,7 @@ wget({
 		        dest: './ADECal.ics',      // destination path or path with filenname, default is ./
 		        timeout: 2000       // duration to wait for request fulfillment in milliseconds, default is 2 seconds
 		    });
-sleep(2);
+sleep.sleep(2);
 var file = fs.readFileSync('./ADECal.ics');
 var cal = ical2json.convert(file);
 client.on('ready', () => {
