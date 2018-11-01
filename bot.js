@@ -210,7 +210,7 @@ client.on('message', function(msg){
 						decalage=2;
 					}
 					events=getEvents(date,TP);
-					console.log("");
+					console.log(date);
 					console.log("toujours rien");
 				}
 			}
