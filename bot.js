@@ -50,7 +50,7 @@ function totime() {
 //-----------------------------//
 
 function getEvents(date,TP) { //Renvoie une liste des évenements
-	console.log("\n================")
+	console.log("\n=================[EVENTS]==================")
 	console.log("[EVENTS] Searching events for",date);
 	file = fs.readFileSync('./ADECal.ics');
 	cal = ical2json.convert(file);
@@ -75,7 +75,7 @@ function getEvents(date,TP) { //Renvoie une liste des évenements
 			}
 		}
 	}
-	console.log("================\n");
+	console.log("===================Fini====================");
 	var oldtime=[];  //stocke une copie de la liste des horaires
 	for (var i in time) { // pour pouvoir retrouver l'ordre original
 		oldtime.push(time[i]);
@@ -84,9 +84,9 @@ function getEvents(date,TP) { //Renvoie une liste des évenements
 	console.log("[EVENTS] evenements : ");
 	for (var i in time) { // Renvoie les événements dans sortie
 		sortie.push(liste[oldtime.indexOf(time[i])]); // dans l'ordre des horaires triés
-		console.log(liste[oldtime.indexOf(time[i])].SUMMARY);
+		console.log["EVENTS]",liste[oldtime.indexOf(time[i])].SUMMARY);
 	}
-	console.log("================\n");
+	console.log("===========================================\n");
 	return sortie;
 }
 
@@ -120,7 +120,7 @@ client.on('message', function(msg){
 			file = fs.readFileSync('./ADECal.ics');
 			cal = ical2json.convert(file);
 		    console.log(cal);
-		    console.log('\n ======= MAJ EDT =======\n');
+		    console.log('\n ================MAJ EDT====================\n');
 		    reponse.push("**EDT mis à jour !**");
 		}
 		if (command=='facebook'||command=='fb') {
@@ -179,16 +179,19 @@ client.on('message', function(msg){
 			}
 			console.log("[DATE] year:",dateY," month:",dateM,"day:",dateD); //Recherche des events à cette date :
 			var events = getEvents(date,TP);
-			console.log(events.length,"evenements trouvés");
-			console.log("[EDT] LastEvent:",events.slice(-1).SUMMARY);
+			console.log("[EDT]",events.length,"événements trouvés");
+			console.log("[EDT] Dernier cours :",events.slice(-1).SUMMARY);
 			if ((events.length<1)||(parseInt(events[events.length-1].DTEND.slice(9,13)) < (parseInt(actual)-decalage)&&date==today())) {
 				if (events.length>0) {
-					console.log("[EDT] ",date," : journée vide");
+					console.log("[EDT]",date,"Journée terminée");
 					events=[];
 				}// Vide les événements lorsque le dernier cours de la journée est terminé.
 				console.log("[EDT] Journée vide ou terminée");
 				var j = 0;
 				while (events.length<1) { // Parcours les jours suivants cherchant des cours
+					if (j>0) {
+						console.log("[EDT] ",date," : toujours rien");
+					}
 					if (j>20) {
 						console.log("[EDT] Pas de cours sur 20 jours : FIN");
 						reponse="Ya un pb...";
@@ -211,20 +214,19 @@ client.on('message', function(msg){
 					else {
 						dateD++;
 					}
-					dateD = String(dateD);
+					dateD = String(dateD); //Mise en forme de la date
 					dateM = String(dateM);
 					dateY = String(dateY);
 					dateM=datify(dateM);
 					dateD=datify(dateD);
 					date=dateY+dateM+dateD;
-					if (parseInt(date)>20181027) {
+					if (parseInt(date)>20181027) { //Heure d'hiver 
 						decalage=1;
 					}
 					if (parseInt(date)>20190330) {
 						decalage=2;
 					}
 					events=getEvents(date,TP);
-					console.log("[EDT] ",date," : toujours rien");
 				}
 			}
 			reponse.push("**EDT du "+TP+" pour le "+dateD+"/"+dateM+" :**");
