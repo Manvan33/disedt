@@ -50,6 +50,8 @@ function totime() {
 //-----------------------------//
 
 function getEvents(date,TP) { //Renvoie une liste des évenements
+	console.log("\n================")
+	console.log("Searching events for",date);
 	file = fs.readFileSync('./ADECal.ics');
 	cal = ical2json.convert(file);
 	var data=cal.VCALENDAR[0].VEVENT; //charge le calendrier
@@ -67,19 +69,24 @@ function getEvents(date,TP) { //Renvoie une liste des évenements
 			console.log("Cours trouve, verification TP...")
 			var long=data[i].SUMMARY.length;
 			if (data[i].SUMMARY.includes(TP) || data[i].SUMMARY.includes(TD) || data[i].SUMMARY.slice(long-1)=='s' || (data[i].SUMMARY.includes("Examen")&& !(data[i].SUMMARY.includes("TP") || data[i].SUMMARY.includes("TD")))) {
+				console.log("TP Correspondant !");
 				time.push(data[i].DTSTART.slice(data[i].DTSTART.length-7,data[i].DTSTART.length-3));
 				liste.push(data[i]);
 			}
 		}
 	}
+	console.log("================\n");
 	var oldtime=[];  //stocke une copie de la liste des horaires
 	for (var i in time) { // pour pouvoir retrouver l'ordre original
 		oldtime.push(time[i]);
 	}
 	time.sort(); // Trie la liste des horaires
+	console.log("evenements : ");
 	for (var i in time) { // Renvoie les événements dans sortie
 		sortie.push(liste[oldtime.indexOf(time[i])]); // dans l'ordre des horaires triés
+		console.log(liste[oldtime.indexOf(time[i])].SUMMARY,"\n");
 	}
+	console.log("================\n");
 	return sortie;
 }
 
@@ -158,20 +165,19 @@ client.on('message', function(msg){
 					}
 				}
 			}
-			if (dateM<9) {
+			if (dateM<9) {  //Ajoute l'année correspondante à la date.
 				dateY="2019";
 			}
 			dateM=datify(dateM);
 			dateD = datify(dateD);
 			date=dateY+dateM+dateD;
-			if (parseInt(date)>20181027) {
+			if (parseInt(date)>20181027) { //Mise en forme des dates + heure d'hiver
 				decalage=1;
 			}
 			if (parseInt(date)>20190330) {
 				decalage=2;
 			}
-			console.log("year:",dateY," month:",dateM,"day:",dateD);
-			console.log("complete :",date);
+			console.log("year:",dateY," month:",dateM,"day:",dateD); //Recherche des events à cette date :
 			var events = getEvents(date,TP);
 			console.log(events.length,"evenements trouvés");
 			console.log("lastEvent:",events.slice(-1));
