@@ -51,7 +51,7 @@ function totime() {
 
 function getEvents(date,TP) { //Renvoie une liste des évenements
 	console.log("\n================")
-	console.log("Searching events for",date);
+	console.log("[EVENTS] Searching events for",date);
 	file = fs.readFileSync('./ADECal.ics');
 	cal = ical2json.convert(file);
 	var data=cal.VCALENDAR[0].VEVENT; //charge le calendrier
@@ -66,10 +66,10 @@ function getEvents(date,TP) { //Renvoie une liste des évenements
 	}
 	for (var i in data){ //cherche les événements correspondants à la date et au TD/TP
 		if (data[i].DTSTART.startsWith(date)){
-			console.log("Cours trouve, verification TP...")
+			console.log("[EVENTS] Cours trouve, verification TP...")
 			var long=data[i].SUMMARY.length;
 			if (data[i].SUMMARY.includes(TP) || data[i].SUMMARY.includes(TD) || data[i].SUMMARY.slice(long-1)=='s' || (data[i].SUMMARY.includes("Examen")&& !(data[i].SUMMARY.includes("TP") || data[i].SUMMARY.includes("TD")))) {
-				console.log("TP Correspondant !");
+				console.log("[EVENTS] TP Correspondant !");
 				time.push(data[i].DTSTART.slice(data[i].DTSTART.length-7,data[i].DTSTART.length-3));
 				liste.push(data[i]);
 			}
@@ -81,10 +81,10 @@ function getEvents(date,TP) { //Renvoie une liste des évenements
 		oldtime.push(time[i]);
 	}
 	time.sort(); // Trie la liste des horaires
-	console.log("evenements : ");
+	console.log("[EVENTS] evenements : ");
 	for (var i in time) { // Renvoie les événements dans sortie
 		sortie.push(liste[oldtime.indexOf(time[i])]); // dans l'ordre des horaires triés
-		console.log(liste[oldtime.indexOf(time[i])].SUMMARY,"\n");
+		console.log(liste[oldtime.indexOf(time[i])].SUMMARY);
 	}
 	console.log("================\n");
 	return sortie;
@@ -99,7 +99,7 @@ client.on('message', function(msg){
 		var command = msg.content.slice(1).split(" "); //Découpe la commande en mots séparés par des " "
 		var args = command.slice(1); //Stocke les arguments
 		command = command[0]; // Stocke la commande seule
-		console.log("\n[COMMAND]", msg.author.username,":", command, "with args :", args);
+		console.log("\n[COMMAND] ",msg.author.username,":", command, "with args :", args);
 
 
 		//-----------------------------//
@@ -127,7 +127,7 @@ client.on('message', function(msg){
 			reponse.push(process.env.FBLINK);
 		}
 		if (command=='pulls'||command=='pull'||command=='sweats') {
-			reponse.push(process.env.PULLFORM);
+			reponse.push("C'est trop tard !");
 		}
 		//-----------------------------//
 		if (command=='edt') {// Assigne initialement la variable TP en fction du role
@@ -156,9 +156,9 @@ client.on('message', function(msg){
 						TP = "TP"+args[i][2];
 					}
 					if (args[i].match(/^([0]?[0-9]|[12][0-9]|[3][01])\/[0]?[1-9]|[1][012]/)) {
-						console.log("MATCH");// a detecté un argument au format jj/mm
+						console.log("[DATE] MATCH");// a detecté un argument au format jj/mm
 						if (parseInt(args[i].slice(args[i].indexOf("\/")+1)) < 13) {
-							console.log("vrai mois !");
+							console.log("[DATE] vrai mois !");
 							dateD = args[i].slice(0,args[i].indexOf("\/"));//Stocke le jour (avant le /)
 							dateM = args[i].slice(args[i].indexOf("\/")+1);//Stocke le mois (après le /)
 						}
@@ -177,21 +177,21 @@ client.on('message', function(msg){
 			if (parseInt(date)>20190330) {
 				decalage=2;
 			}
-			console.log("year:",dateY," month:",dateM,"day:",dateD); //Recherche des events à cette date :
+			console.log("[DATE] year:",dateY," month:",dateM,"day:",dateD); //Recherche des events à cette date :
 			var events = getEvents(date,TP);
 			console.log(events.length,"evenements trouvés");
-			console.log("lastEvent:",events.slice(-1));
+			console.log("[EDT] LastEvent:",events.slice(-1).SUMMARY);
 			if ((events.length<1)||(parseInt(events[events.length-1].DTEND.slice(9,13)) < (parseInt(actual)-decalage)&&date==today())) {
 				if (events.length>0) {
-					console.log("journée terminée");
+					console.log("[EDT] ",date," : journée vide");
 					events=[];
 				}// Vide les événements lorsque le dernier cours de la journée est terminé.
-				console.log("journée vide ou terminée");
+				console.log("[EDT] Journée vide ou terminée");
 				var j = 0;
 				while (events.length<1) { // Parcours les jours suivants cherchant des cours
 					if (j>20) {
-						console.log("Pas de cours sur 20 jours : FIN");
-						reponse.push("Ya un pb...")
+						console.log("[EDT] Pas de cours sur 20 jours : FIN");
+						reponse="Ya un pb...";
 						break;
 					}
 					j++;
@@ -224,11 +224,9 @@ client.on('message', function(msg){
 						decalage=2;
 					}
 					events=getEvents(date,TP);
-					console.log(date);
-					console.log("toujours rien");
+					console.log("[EDT] ",date," : toujours rien");
 				}
 			}
-			console.log("Final events :", events);
 			reponse.push("**EDT du "+TP+" pour le "+dateD+"/"+dateM+" :**");
 			var eDesc;
 			for (var i in events) { // Liste les cours dans la variable reponse
