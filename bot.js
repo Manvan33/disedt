@@ -180,7 +180,14 @@ client.on('message', function(msg){
 					events=[];
 				}// Vide les événements lorsque le dernier cours de la journée est terminé.
 				console.log("journée vide ou terminée");
+				var j = 0;
 				while (events.length<1) { // Parcours les jours suivants cherchant des cours
+					if (j>20) {
+						console.log("Pas de cours sur 20 jours : FIN");
+						reponse.push("Ya un pb...")
+						break;
+					}
+					j++;
 					dateD = parseInt(dateD);
 					dateM = parseInt(dateM);
 					dateY = parseInt(dateY);
