@@ -194,7 +194,7 @@ client.on('message', function(msg){
 					}
 					if (j>20) {
 						console.log("[EDT] Pas de cours sur 20 jours : FIN");
-						reponse="Ya un pb...";
+						reponse.push("Ya un pb...");
 						break;
 					}
 					j++;
@@ -229,7 +229,9 @@ client.on('message', function(msg){
 					events=getEvents(date,TP);
 				}
 			}
-			reponse.push("**EDT du "+TP+" pour le "+dateD+"/"+dateM+" :**");
+			if (j<=20) {
+				reponse.push("**EDT du "+TP+" pour le "+dateD+"/"+dateM+" :**");
+			}
 			var eDesc;
 			for (var i in events) { // Liste les cours dans la variable reponse
 				eDesc=events[i].DESCRIPTION;
