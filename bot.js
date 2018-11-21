@@ -64,6 +64,7 @@ function getEvents(date,TP) { //Renvoie une liste des évenements
 	}
 	for (var i in data){ //cherche les événements correspondants à la date et au TD/TP
 		if (data[i].DTSTART.startsWith(date)){
+			console.log("Cours trouve, verification TP...")
 			var long=data[i].SUMMARY.length;
 			if (data[i].SUMMARY.includes(TP) || data[i].SUMMARY.includes(TD) || data[i].SUMMARY.slice(long-1)=='s' || (data[i].SUMMARY.includes("Examen")&& !(data[i].SUMMARY.includes("TP") || data[i].SUMMARY.includes("TD")))) {
 				time.push(data[i].DTSTART.slice(data[i].DTSTART.length-7,data[i].DTSTART.length-3));
