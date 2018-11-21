@@ -75,7 +75,7 @@ function getEvents(date,TP) { //Renvoie une liste des évenements
 			}
 		}
 	}
-	console.log("===================Fini====================");
+	console.log("===================Fini");
 	var oldtime=[];  //stocke une copie de la liste des horaires
 	for (var i in time) { // pour pouvoir retrouver l'ordre original
 		oldtime.push(time[i]);
@@ -84,7 +84,7 @@ function getEvents(date,TP) { //Renvoie une liste des évenements
 	console.log("[EVENTS] evenements : ");
 	for (var i in time) { // Renvoie les événements dans sortie
 		sortie.push(liste[oldtime.indexOf(time[i])]); // dans l'ordre des horaires triés
-		console.log["EVENTS]",liste[oldtime.indexOf(time[i])].SUMMARY);
+		console.log(["EVENTS]",liste[oldtime.indexOf(time[i])].SUMMARY);
 	}
 	console.log("===========================================\n");
 	return sortie;
