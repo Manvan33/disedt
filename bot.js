@@ -229,6 +229,9 @@ client.on('message', function(msg){
 					events=getEvents(date,TP);
 				}
 			}
+			else {
+				reponse.push("**EDT du "+TP+" pour le "+dateD+"/"+dateM+" :**");
+			}
 			if (j<=20) {
 				reponse.push("**EDT du "+TP+" pour le "+dateD+"/"+dateM+" :**");
 			}
