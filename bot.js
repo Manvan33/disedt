@@ -58,17 +58,20 @@ function getEvents(date,TP) { //Renvoie une liste des évenements
 	var time=[];
 	var sortie=[];
 	var liste=[];
+	var Cours="riendutout";
 	if (TP.match(/TP[12]/i)) { //Trouve le TD correspondant
 		var TD = "TDA";
+		Cours = "Cours";
 	}
 	else if (TP.match(/TP[34]/i)) {
 		var TD = "TDB";
+		Cours = "Cours";
 	}
 	for (var i in data){ //cherche les événements correspondants à la date et au TD/TP
 		if (data[i].DTSTART.startsWith(date)){
 			console.log("[EVENTS] Cours trouve, verification TP...")
 			var long=data[i].SUMMARY.length;
-			if (data[i].SUMMARY.includes(TP) || data[i].SUMMARY.includes(TD) || data[i].SUMMARY.slice(long-1)=='s' || (data[i].SUMMARY.includes("Examen")&& !(data[i].SUMMARY.includes("TP") || data[i].SUMMARY.includes("TD")))) {
+			if (data[i].SUMMARY.includes(TP) || data[i].SUMMARY.includes(TD) || data[i].SUMMARY.includes(Cours) || (data[i].SUMMARY.includes("Examen")&& !(data[i].SUMMARY.includes("TP") || data[i].SUMMARY.includes("TD")))) {
 				console.log("[EVENTS] TP Correspondant !");
 				time.push(data[i].DTSTART.slice(data[i].DTSTART.length-7,data[i].DTSTART.length-3));
 				liste.push(data[i]);
@@ -133,7 +136,7 @@ client.on('message', function(msg){
 			var date = today();
 			var events = getEvents(date,"Examen");
 			var i = 0;
-			while (events.length<1 || i < 100) {
+			while (events.length<1 && i < 100) {
 				var dateY=date.slice(0,4);
 				var dateM=date.slice(4,6);
 				var dateD=date.slice(6);
