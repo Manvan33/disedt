@@ -165,7 +165,7 @@ client.on('message', function(msg){
 				if (parseInt(date)>20190330) {
 					decalage=2;
 				}
-				events=getEvents(date,TP);
+				events=getEvents(date,"Examen");
 				i++;
 			}
 			reponse.push("**Prochain exam le "+dateD+"/"+dateM+" :**");
