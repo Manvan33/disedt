@@ -129,6 +129,53 @@ client.on('message', function(msg){
 		if (command=='pulls'||command=='pull'||command=='sweats') {
 			reponse.push("C'est trop tard !");
 		}
+		if (command=='exam' ||command=='examen' || command=='examens') {
+			var date = today;
+			var events = getEvents(date,"Examen");
+			var i = 0;
+			while (events.length<1 || i < 100) {
+				var dateY=date.slice(0,4);
+				var dateM=date.slice(4,6);
+				var dateD=date.slice(6);
+				dateD = parseInt(dateD);
+				dateM = parseInt(dateM);
+				dateY = parseInt(dateY);
+				if (dateD > 30) { //Les mois n'ont que 31 jours max
+					dateD = 1;
+					if (dateM>11) {// Que 12 mois dans l'année
+						dateM=1;
+						dateY++;
+					}
+					else {
+						dateM++;
+					}
+				}
+				else {
+					dateD++;
+				}
+				dateD = String(dateD); //Mise en forme de la date
+				dateM = String(dateM);
+				dateY = String(dateY);
+				dateM=datify(dateM);
+				dateD=datify(dateD);
+				date=dateY+dateM+dateD;
+				if (parseInt(date)>20181027) { //Heure d'hiver 
+					decalage=1;
+				}
+				if (parseInt(date)>20190330) {
+					decalage=2;
+				}
+				events=getEvents(date,TP);
+				i++;
+			}
+			reponse.push("**Prochain exam le "+dateD+"/"+dateM+" :**");
+			var eDesc;
+			for (var i in events) { // Liste les cours dans la variable reponse
+				eDesc=events[i].DESCRIPTION;
+				reponse.push(events[i].SUMMARY+" à __"+String(parseInt(events[i].DTSTART.slice(9,11))+decalage)+"h"+events[i].DTSTART.slice(11,13)+"__ à *"+events[i].LOCATION+"* avec "+eDesc.slice(eDesc.slice(0,eDesc.indexOf('(')-5).lastIndexOf('\\')+2,events[i].DESCRIPTION.indexOf("(")-2));		
+			}
+			msg.reply(reponse);
+		}
 		//-----------------------------//
 		if (command=='edt') {// Assigne initialement la variable TP en fction du role
 			var actual = totime();
