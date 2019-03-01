@@ -177,7 +177,6 @@ client.on('message', function(msg){
 				eDesc=events[i].DESCRIPTION;
 				reponse.push(events[i].SUMMARY+" à __"+String(parseInt(events[i].DTSTART.slice(9,11))+decalage)+"h"+events[i].DTSTART.slice(11,13)+"__ à *"+events[i].LOCATION+"* avec "+eDesc.slice(eDesc.slice(0,eDesc.indexOf('(')-5).lastIndexOf('\\')+2,events[i].DESCRIPTION.indexOf("(")-2));		
 			}
-			msg.reply(reponse);
 		}
 		//-----------------------------//
 		if (command=='edt') {// Assigne initialement la variable TP en fction du role
