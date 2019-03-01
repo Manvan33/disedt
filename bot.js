@@ -130,7 +130,7 @@ client.on('message', function(msg){
 			reponse.push("C'est trop tard !");
 		}
 		if (command=='exam' ||command=='examen' || command=='examens') {
-			var date = today;
+			var date = today();
 			var events = getEvents(date,"Examen");
 			var i = 0;
 			while (events.length<1 || i < 100) {
