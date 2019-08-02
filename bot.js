@@ -16,9 +16,9 @@ function update() {
 	var currentURL;
 	var currentFile;
 	for (var i = 0; i<8; i++) {
-		console.log(i);
 		currentURL = process.env.URL+CLASSIDS[i]+"&calType=ical&firstDate=2019-09-02&lastDate=2020-07-31";
 		currentFile = './'+GROUPS[i]+'.ics';
+		console.log("[WGET] Retrieving calendar :", currentFile);
 		wget({
 		    	url:  currentURL,
 		    	dest: currentFile,
@@ -30,7 +30,7 @@ function update() {
 					console.log(error);
 				}
 				else {
-					console.log('Successfull WGET for :',currentFile);
+					console.log('Successfull WGET');
 				}
 			}
 		);
