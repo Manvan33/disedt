@@ -9,16 +9,18 @@ const GROUPS = ["1ATP1","1ATP2","1ATP3","1ATP4","2ATP1","2ATP2","2ATP3","2ATP4"]
 
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
-	update();
+	update(true);
 });
 //====================================Fonctions=========================//
-function update() {
+function update(initial) {
 	var currentURL;
 	var currentFile;
 	for (var i = 0; i<8; i++) {
 		currentURL = process.env.URL+CLASSIDS[i]+"&calType=ical&firstDate=2019-09-02&lastDate=2020-07-31";
 		currentFile = './'+GROUPS[i]+'.ics';
-		fs.unlinkSync(currentFile);
+		if (!initial) {
+			fs.unlinkSync(currentFile);
+		}
 		console.log("[WGET] Retrieving calendar :", currentFile);
 		wget({
 		    	url:  currentURL,
@@ -122,7 +124,7 @@ client.on('message', function(msg){
 		}
 		//-----------------------------//
 		if (command=='update') {
-			update();
+			update(false);
 		    console.log('\n ================MAJ EDT====================\n');
 		    reponse.push("**EDT mis à jour !**");
 		}
