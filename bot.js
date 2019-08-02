@@ -4,18 +4,38 @@ const ical2json = require("ical2json");
 const fs = require('fs');
 const wget = require('node-wget');
 const sleep = require('sleep');
-wget({
-		        url:  process.env.URL,
-		        dest: './ADECal.ics',      // destination path or path with filenname, default is ./
-		        timeout: 2000       // duration to wait for request fulfillment in milliseconds, default is 2 seconds
-		    });
-sleep.sleep(2);
-var file = fs.readFileSync('./ADECal.ics');
-var cal = ical2json.convert(file);
+const CLASSIDS = ["7810","7811","7858","8041","8074","8095","8106","44152"];
+const GROUPS = ["1ATP1","1ATP2","1ATP3","1ATP4","2ATP1","2ATP2","2ATP3","2ATP4"]
+
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+	console.log(`Logged in as ${client.user.tag}!`);
+	update();
 });
 //====================================Fonctions=========================//
+function update() {
+	var currentURL;
+	var currentFile;
+	for (var i = 0; i<8; i++) {
+		currentURL = process.env.URL+CLASSIDS[i]+"&calType=ical&firstDate=2019-09-02&lastDate=2020-07-31";
+		currentFile = './'+GROUPS[i]+'.ics';
+		wget({
+		    	url:  currentURL,
+		    	dest: currentFile,
+		    	timeout: 2000
+			},
+			function (error, response, body) {
+				if (error) {
+					console.log('[WGET] Error while updating calendar :',currentFile);
+					console.log(error);
+				}
+				else {
+					console.log('Successfull WGET for :',currentFile);
+				}
+			}
+		);
+		sleep.sleep(2)
+	};
+}
 function today() {
 	var today = new Date();
 	var dd = today.getDate();
@@ -40,7 +60,7 @@ function datify(entry) {
 //-----------------------------//
 function totime() {
 	var time = new Date();
-	var decalage=1;
+	var decalage=1;//Vive le changement d'heure, qui fait varier le décalage horaire par rapport à UTC
 	if (parseInt(String(time.getMonth()+1)+String(time.getDate())) < 1031 && parseInt(String(time.getMonth()+1)+String(time.getDate())) > 330) {
 		decalage=2;
 	}
@@ -49,33 +69,30 @@ function totime() {
 };
 //-----------------------------//
 
-function getEvents(date,TP) { //Renvoie une liste des évenements
+function getEvents(date,group) { //Renvoie une liste des évenements
 	console.log("\n=================[EVENTS]==================")
-	console.log("[EVENTS] Searching events for",date);
-	file = fs.readFileSync('./ADECal.ics');
-	cal = ical2json.convert(file);
+	console.log("[EVENTS] Searching events for",date,group);
+	var file = fs.readFileSync('./'+group+'.ics');
+	var cal = ical2json.convert(file);
 	var data=cal.VCALENDAR[0].VEVENT; //charge le calendrier
+	fs.unlinkSync('./'+group+'.ics');
 	var time=[];
 	var sortie=[];
 	var liste=[];
 	var Cours="riendutout";
-	if (TP.match(/TP[12]/i)) { //Trouve le TD correspondant
+	/*if (TP.match(/TP[12]/i)) { //Trouve le TD correspondant
 		var TD = "TDA";
 		Cours = "Cours";
 	}
 	else if (TP.match(/TP[34]/i)) {
 		var TD = "TDB";
 		Cours = "Cours";
-	}
+	}*/
 	for (var i in data){ //cherche les événements correspondants à la date et au TD/TP
 		if (data[i].DTSTART.startsWith(date)){
-			console.log("[EVENTS] Cours trouve, verification TP...")
-			var long=data[i].SUMMARY.length;
-			if (data[i].SUMMARY.includes(TP) || data[i].SUMMARY.includes(TD) || data[i].SUMMARY.includes(Cours) || (data[i].SUMMARY.includes("Examen")&& !(data[i].SUMMARY.includes("TP") || data[i].SUMMARY.includes("TD")))) {
-				console.log("[EVENTS] TP Correspondant !");
-				time.push(data[i].DTSTART.slice(data[i].DTSTART.length-7,data[i].DTSTART.length-3));
-				liste.push(data[i]);
-			}
+			console.log("[EVENTS] Cours trouve");
+			time.push(data[i].DTSTART.slice(data[i].DTSTART.length-7,data[i].DTSTART.length-3));
+			liste.push(data[i]);
 		}
 	}
 	console.log("===================Fini");
@@ -112,17 +129,7 @@ client.on('message', function(msg){
 		}
 		//-----------------------------//
 		if (command=='update') {
-			fs.unlinkSync('./ADECal.ics');
-			sleep.sleep(1);
-			wget({
-		        url:  process.env.URL,
-		        dest: './ADECal.ics',      // destination path or path with filenname, default is ./
-		        timeout: 2000       // duration to wait for request fulfillment in milliseconds, default is 2 seconds
-		    });
-		    sleep.sleep(2);
-			file = fs.readFileSync('./ADECal.ics');
-			cal = ical2json.convert(file);
-		    console.log(cal);
+			update();
 		    console.log('\n ================MAJ EDT====================\n');
 		    reponse.push("**EDT mis à jour !**");
 		}
@@ -187,6 +194,7 @@ client.on('message', function(msg){
 			var dateM=date.slice(4,6);
 			var dateD=date.slice(6);
 			var TP = "TP2";
+			var AN = "2A";
 			if (msg.member.roles.has(msg.guild.roles.find("name", "TP1").id)) {//Définit la variable TP en fonction du role trouvé
 				TP = "TP1";
 			}
@@ -199,10 +207,19 @@ client.on('message', function(msg){
 			else if (msg.member.roles.has(msg.guild.roles.find("name", "TP4").id)) {
 				TP = "TP4";
 			}
+			if (msg.member.roles.has(msg.guild.roles.find("name", "1A").id)) {//Définit la variable TP en fonction du role trouvé
+				AN = "1A";
+			}
+			else if (msg.member.roles.has(msg.guild.roles.find("name", "2A").id)) {//Définit la variable TP en fonction du role trouvé
+				AN = "2A";
+			}
 			if (args.length>0) { //Si des arguments ont été donnés à la variable
 				for (i in args) { //Trouve un potentiel argument "tp." avec . le n° du TP
 					if (args[i].match(/^TP[1-4]/i)) {
 						TP = "TP"+args[i][2];
+					}
+					if (args[i].match(/^[1-2]A/i)) {
+						TP = args[i][0]+"A";
 					}
 					if (args[i].match(/^([0]?[0-9]|[12][0-9]|[3][01])\/[0]?[1-9]|[1][012]/)) {
 						console.log("[DATE] MATCH");// a detecté un argument au format jj/mm
@@ -215,15 +232,15 @@ client.on('message', function(msg){
 				}
 			}
 			if (dateM<9) {  //Ajoute l'année correspondante à la date.
-				dateY="2019";
+				dateY="2020";
 			}
-			dateM=datify(dateM);
+			dateM = datify(dateM);
 			dateD = datify(dateD);
 			date=dateY+dateM+dateD;
-			if (parseInt(date)>20181027) { //Mise en forme des dates + heure d'hiver
+			if (parseInt(date)>20191027) { //Mise en forme des dates + heure d'hiver
 				decalage=1;
 			}
-			if (parseInt(date)>20190330) {
+			if (parseInt(date)>20200330) {
 				decalage=2;
 			}
 			console.log("[DATE] year:",dateY," month:",dateM,"day:",dateD); //Recherche des events à cette date :
@@ -275,7 +292,7 @@ client.on('message', function(msg){
 					if (parseInt(date)>20190330) {
 						decalage=2;
 					}
-					events=getEvents(date,TP);
+					events=getEvents(date,AN+TP);
 				}
 			}
 			else {
