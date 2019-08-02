@@ -16,6 +16,7 @@ function update() {
 	var currentURL;
 	var currentFile;
 	for (var i = 0; i<8; i++) {
+		console.log(i);
 		currentURL = process.env.URL+CLASSIDS[i]+"&calType=ical&firstDate=2019-09-02&lastDate=2020-07-31";
 		currentFile = './'+GROUPS[i]+'.ics';
 		wget({
@@ -77,6 +78,7 @@ function getEvents(date,group) { //Renvoie une liste des évenements
 	var data=cal.VCALENDAR[0].VEVENT; //charge le calendrier
 	fs.unlinkSync('./'+group+'.ics');
 	var time=[];
+
 	var sortie=[];
 	var liste=[];
 	var Cours="riendutout";
