@@ -249,7 +249,7 @@ client.on('message', function(msg){
 				}// Vide les événements lorsque le dernier cours de la journée est terminé.
 				console.log("[EDT] Journée vide ou terminée");
 				var j = 0;
-				while (events.length-th<1) { // Parcours les jours suivants cherchant des cours
+				while (events.length<1) { // Parcours les jours suivants cherchant des cours
 					if (j>0) {
 						console.log("[EDT] ",date," : toujours rien");
 					}
