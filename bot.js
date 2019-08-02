@@ -221,7 +221,7 @@ client.on('message', function(msg){
 						TP = "TP"+args[i][2];
 					}
 					if (args[i].match(/^[1-2]A/i)) {
-						TP = args[i][0]+"A";
+						AN = args[i][0]+"A";
 					}
 					if (args[i].match(/^([0]?[0-9]|[12][0-9]|[3][01])\/[0]?[1-9]|[1][012]/)) {
 						console.log("[DATE] MATCH");// a detecté un argument au format jj/mm
@@ -246,7 +246,7 @@ client.on('message', function(msg){
 				decalage=2;
 			}
 			console.log("[DATE] year:",dateY," month:",dateM,"day:",dateD); //Recherche des events à cette date :
-			var events = getEvents(date,TP);
+			var events = getEvents(date,AN+TP);
 			console.log("[EDT]",events.length,"événements trouvés");
 			console.log("[EDT] Dernier cours :",events.slice(-1).SUMMARY);
 			if ((events.length<1)||(parseInt(events[events.length-1].DTEND.slice(9,13)) < (parseInt(actual)-decalage)&&date==today())) {
