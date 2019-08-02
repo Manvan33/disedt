@@ -18,6 +18,7 @@ function update() {
 	for (var i = 0; i<8; i++) {
 		currentURL = process.env.URL+CLASSIDS[i]+"&calType=ical&firstDate=2019-09-02&lastDate=2020-07-31";
 		currentFile = './'+GROUPS[i]+'.ics';
+		fs.unlinkSync(currentFile);
 		console.log("[WGET] Retrieving calendar :", currentFile);
 		wget({
 		    	url:  currentURL,
@@ -76,20 +77,10 @@ function getEvents(date,group) { //Renvoie une liste des évenements
 	var file = fs.readFileSync('./'+group+'.ics');
 	var cal = ical2json.convert(file);
 	var data=cal.VCALENDAR[0].VEVENT; //charge le calendrier
-	fs.unlinkSync('./'+group+'.ics');
 	var time=[];
-
 	var sortie=[];
 	var liste=[];
 	var Cours="riendutout";
-	/*if (TP.match(/TP[12]/i)) { //Trouve le TD correspondant
-		var TD = "TDA";
-		Cours = "Cours";
-	}
-	else if (TP.match(/TP[34]/i)) {
-		var TD = "TDB";
-		Cours = "Cours";
-	}*/
 	for (var i in data){ //cherche les événements correspondants à la date et au TD/TP
 		if (data[i].DTSTART.startsWith(date)){
 			console.log("[EVENTS] Cours trouve");
@@ -256,7 +247,7 @@ client.on('message', function(msg){
 				}// Vide les événements lorsque le dernier cours de la journée est terminé.
 				console.log("[EDT] Journée vide ou terminée");
 				var j = 0;
-				while (events.length<1) { // Parcours les jours suivants cherchant des cours
+				while (events.length-th<1) { // Parcours les jours suivants cherchant des cours
 					if (j>0) {
 						console.log("[EDT] ",date," : toujours rien");
 					}
