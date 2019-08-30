@@ -226,7 +226,7 @@ client.on('message', function(msg){
 					}
 				}
 			}
-			if (dateM<9) {  //Ajoute l'année correspondante à la date.
+			if (dateM<8) {  //Ajoute l'année correspondante à la date.
 				dateY="2020";
 			}
 			dateM = datify(dateM);
@@ -299,7 +299,7 @@ client.on('message', function(msg){
 			var eDesc;
 			for (var i in events) { // Liste les cours dans la variable reponse
 				eDesc=events[i].DESCRIPTION;
-				reponse.push(events[i].SUMMARY+" à __"+String(parseInt(events[i].DTSTART.slice(9,11))+decalage)+"h"+events[i].DTSTART.slice(11,13)+"__ à *"+events[i].LOCATION+"* avec "+eDesc.slice(eDesc.slice(0,eDesc.indexOf('(')-5).lastIndexOf('\\')+2,events[i].DESCRIPTION.indexOf("(")-2));		
+				reponse.push(events[i].SUMMARY+" à __"+String(parseInt(events[i].DTSTART.slice(9,11))+decalage)+"h"+events[i].DTSTART.slice(11,13)+"__ à *"+events[i].LOCATION+"* avec "+eDesc.slice(eDesc.slice(0,eDesc.indexOf('(')-5).lastIndexOf('\\')+2,events[i].DESCRIPTION.indexOf("(")-4));		
 			}
 		}
 		if (reponse.length>0) {
