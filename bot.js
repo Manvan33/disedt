@@ -211,13 +211,15 @@ client.on('message', function(msg){
 			if (args.length>0) { //Si des arguments ont été donnés à la variable
 				for (i in args) { //Trouve un potentiel argument "tp." avec . le n° du TP
 					if (args[i].match(/^TP[1-4]/i)) {
+						console.log("[ARGS] TP detecté");// a detecté un argument au format jj/mm
 						TP = "TP"+args[i][2];
 					}
 					if (args[i].match(/^[1-2]A/i)) {
+						console.log("[ARGS] Année detectée");// a detecté un argument au format jj/mm
 						AN = args[i][0]+"A";
-					}
+					}	
 					if (args[i].match(/^([0]?[0-9]|[12][0-9]|[3][01])\/[0]?[1-9]|[1][012]/)) {
-						console.log("[DATE] MATCH");// a detecté un argument au format jj/mm
+						console.log("[ARGS] Date detectée");// a detecté un argument au format jj/mm
 						if (parseInt(args[i].slice(args[i].indexOf("\/")+1)) < 13) {
 							console.log("[DATE] vrai mois !");
 							dateD = args[i].slice(0,args[i].indexOf("\/"));//Stocke le jour (avant le /)
