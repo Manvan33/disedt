@@ -196,7 +196,7 @@ client.on('message', function(msg){
 			else if (msg.member.roles.has(msg.guild.roles.find("name", "TP2").id)) {
 				TP = "TP2";
 			}
-			else if (msg.member.roles.has(msg.guild.roles.find("name", "TP4").id)) {
+			else if (msg.member.roles.has(msg.guild.roles.find("name", "TP3").id)) {
 				TP = "TP3";
 			}
 			else if (msg.member.roles.has(msg.guild.roles.find("name", "TP4").id)) {
@@ -291,10 +291,10 @@ client.on('message', function(msg){
 				}
 			}
 			else {
-				reponse.push("**EDT du "+TP+" pour le "+dateD+"/"+dateM+" :**");
+				reponse.push("**EDT du "+AN+"-"+TP+" pour le "+dateD+"/"+dateM+" :**");
 			}
 			if (j<=20) {
-				reponse.push("**EDT du "+TP+" pour le "+dateD+"/"+dateM+" :**");
+				reponse.push("**EDT du "+AN+"-"+TP+" pour le "+dateD+"/"+dateM+" :**");
 			}
 			var eDesc;
 			for (var i in events) { // Liste les cours dans la variable reponse
