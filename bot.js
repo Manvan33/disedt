@@ -122,6 +122,9 @@ client.on('message', function(msg){
 			msg.reply("`pong`");
 			console.log(today());
 		}
+		if (command=='rt') {
+			msg.reply('oui', {files:["https://i.imgur.com/4nUb3H9.png"]});
+		}
 		//-----------------------------//
 		if (command=='update') {
 			update(false);
