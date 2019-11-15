@@ -25,7 +25,7 @@ function update(initial) {
 		wget({
 		    	url:  currentURL,
 		    	dest: currentFile,
-		    	timeout: 4000
+		    	timeout: 2000
 			},
 			function (error, response, body) {
 				if (error) {
