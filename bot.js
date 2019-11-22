@@ -33,7 +33,7 @@ function update(initial) {
 					console.log(error);
 				}
 				else {
-					console.log('Successfull WGET');
+					console.log('Successfull WGET');
 				}
 			}
 		);
@@ -91,7 +91,7 @@ function getEvents(date,group) { //Renvoie une liste des évenements
 		}
 	}
 	console.log("===================Fini");
-	var oldtime=[];  //stocke une copie de la liste des horaires
+	var oldtime=[];  //stocke une copie de la liste des horaires
 	for (var i in time) { // pour pouvoir retrouver l'ordre original
 		oldtime.push(time[i]);
 	}
@@ -192,7 +192,7 @@ client.on('message', function(msg){
 			var dateM=date.slice(4,6);
 			var dateD=date.slice(6);
 			var TP = "TP2";
-			var AN = "2A";
+			var AN = "2A";
 			if (msg.member.roles.has(msg.guild.roles.find("name", "TP1").id)) {//Définit la variable TP en fonction du role trouvé
 				TP = "TP1";
 			}
@@ -292,7 +292,7 @@ client.on('message', function(msg){
 					if (parseInt(date)>20200330) {
 						decalage=2;
 					}
-					events=getEvents(date,AN+TP);
+					events=getEvents(date,AN+TP);//test
 				}
 			}
 			else {
