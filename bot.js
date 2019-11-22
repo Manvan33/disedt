@@ -5,8 +5,8 @@ const fs = require('fs');
 const wget = require('node-wget');
 const sleep = require('sleep');
 const CLASSIDS = ["7810","7811","7858","8041","8074","8095","8106","44152"];
-const GROUPS = ["1ATP1","1ATP2","1ATP3","1ATP4","2ATP1","2ATP2","2ATP3","2ATP4"]
-require('dotenv').config()
+const GROUPS = ["1ATP1","1ATP2","1ATP3","1ATP4","2ATP1","2ATP2","2ATP3","2ATP4"];
+
 client.on('ready', () => {
 	console.log(`Logged in as ${client.user.tag}!`);
 	update(true);
