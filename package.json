@@ -1,6 +1,9 @@
 {
   "name": "BotDevoirs",
   "version": "1.2.0",
+  "engines": {
+    "node": "8.10.0"
+  },
   "description": "My First Discord Bot",
   "main": "bot.js",
   "author": "Manvan",
