@@ -286,10 +286,10 @@ client.on('message', function(msg){
 					dateM=datify(dateM);
 					dateD=datify(dateD);
 					date=dateY+dateM+dateD;
-					if (parseInt(date)>20181027) { //Heure d'hiver 
+					if (parseInt(date)>20191027) { //Heure d'hiver 
 						decalage=1;
 					}
-					if (parseInt(date)>20190330) {
+					if (parseInt(date)>20200330) {
 						decalage=2;
 					}
 					events=getEvents(date,AN+TP);
