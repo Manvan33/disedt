@@ -76,7 +76,7 @@ function totime() {
 function getEvents(date,group) { //Renvoie une liste des évenements
 	console.log("\n=================[EVENTS]==================")
 	console.log("[EVENTS] Searching events for",date,group);
-	var file = fs.readFileSync('./'+group+'.ics');
+	var file = String(fs.readFileSync('./'+group+'.ics'));
 	var cal = ical2json.convert(file);
 	var data=cal.VCALENDAR[0].VEVENT; //charge le calendrier
 	var time=[];
